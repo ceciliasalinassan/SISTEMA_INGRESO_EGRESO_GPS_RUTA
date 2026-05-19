@@ -10,6 +10,7 @@ import {
   AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid,
   PieChart, Pie, Cell
 } from "recharts";
+import { QRCodeSVG } from "qrcode.react";
 import "./style.css";
 
 const STORAGE_KEY = "gpsruta_sistema_sin_src_v1";
@@ -96,18 +97,32 @@ function Logo() {
 }
 
 function QR({ client }) {
-  const text = JSON.stringify(client);
-  const chars = Array.from(text + "GPSRUTA0000000000000000000");
+  const value = JSON.stringify({
+    empresa: client.nombre,
+    rut: client.rut,
+    contacto: client.contacto,
+    telefono: client.telefono,
+    email: client.email,
+    direccion: client.direccion,
+    sistema: "GPSruta.cl"
+  });
+
   return (
-    <div className="qr">
-      {Array.from({ length: 81 }).map((_, i) => {
-        const corner = (i < 20 && i % 9 < 3) || (i < 27 && i % 9 > 5) || (i > 53 && i % 9 < 3);
-        const on = corner || ((chars[i % chars.length].charCodeAt(0) + i * 7) % 3 === 0);
-        return <span key={i} className={on ? "on" : ""} />;
-      })}
+    <div className="qrReal">
+      <QRCodeSVG
+        value={value}
+        size={150}
+        bgColor="#ffffff"
+        fgColor="#000000"
+        level="H"
+        includeMargin={true}
+      />
+      <span className="qrOk">QR generado correctamente</span>
     </div>
   );
 }
+
+
 
 function Login({ onLogin }) {
   const [pass, setPass] = useState("");

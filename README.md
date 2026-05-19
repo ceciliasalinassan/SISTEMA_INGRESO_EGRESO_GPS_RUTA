@@ -14,3 +14,6 @@ Vercel:
 - Framework: Vite
 - Build Command: npm run build
 - Output Directory: dist
+
+
+QR corregidos: ahora se generan con qrcode.react y contienen los datos reales del cliente.
